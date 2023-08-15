@@ -23,12 +23,12 @@
 
       <div class="be-content">
       <div class="page-head">
-          <h2 class="page-head-title">Book Train</h2>
+          <h2 class="page-head-title">Checkout Tickets</h2>
           <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb page-head-nav">
-              <li class="breadcrumb-item"><a href="pass">Dashboard</a></li>
-              <li class="breadcrumb-item"><a href="#">Book Train</a></li>
-              <li class="breadcrumb-item active">Reserve Train</li>
+              <li class="breadcrumb-item"><a href="pass-dashboard.php">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="">Train Tickets</a></li>
+              <li class="breadcrumb-item active">Checkout</li>
             </ol>
           </nav>
         </div>
@@ -37,48 +37,61 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="card card-table">
-                <div class="card-header">Please Book Your Train Accordingly                  
+              
+              <?php
+              /**
+               * We need to get firstname or username of logged in user!!
+               */         
+                $aid=$_SESSION['pass_id'];
+                $ret="select * from orrs_passenger where pass_id=?";
+                $stmt= $mysqli->prepare($ret) ;
+                $stmt->bind_param('i',$aid);
+                $stmt->execute() ;//ok
+                $res=$stmt->get_result();
+                //$cnt=1;
+                while($row=$res->fetch_object())
+                 {
+                    ?>
+                <div class="card-header"><?php echo $row->pass_fname;?> <?php echo $row->pass_lname;?>  This Is Your Booked Train Proceed to checkout your ticket!   
+                <?php }?>             
                 </div>
+
                 <div class="card-body">
                   <table class="table table-striped table-hover table-fw-widget" id="table1">
                     <thead>
                       <tr>
                         <th>Train Number</th>
                         <th>Train Name</th>
-                        <th>Route</th>
                         <th>Departure Station</th>
                         <th>Arrival Station</th>
                         <th>Departure Time</th>
                         <th>Fare</th>
-                        <th>Book Train</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                    <?php
-                        /*
-                        *Lets get details of available trains!!
-                        */
-                        $ret="SELECT * FROM orrs_train  "; //sql code to get all details of trains.
-                        $stmt= $mysqli->prepare($ret) ;
-                        $stmt->execute() ;//ok
-                        $res=$stmt->get_result();
-                        $cnt=1;
+                        <?php
+                        /**
+                         *Lets select train booking details of logged in user using PASSENGER ID as the session
+                         */
+                            //$aid=$_SESSION['pass_id'];
+                            $ret="select * from orrs_passenger where pass_id=?";//sql to get details of our user
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$aid);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
                         while($row=$res->fetch_object())
                         {
-                    ?>
+                        ?>
                       <tr class="odd gradeX even gradeC odd gradeA even gradeA ">
-                        <td><?php echo $row->number;?></td>
-                        <td><?php echo $row->name;?></td>
-                        <td><?php echo $row->route;?></td>
-                        <td class="center"><?php echo $row->current;?></td>
-                        <td class="center"><?php echo $row->destination;?></td>
-                        <td class="center"><?php echo $row->time;?></td>
-                        <td class="center"><span class="badge badge-pill badge-danger">LKR</span><?php echo $row->fare;?></td>
-                        <td class="center">
-                            <span class = "badge badge-pill badge-outline-danger">
-                                <a href = "pass-book-specific-train.php?id=<?php echo $row->id?>">Book</a>
-                            </span>    
-                        </td>
+                        <td><?php echo $row->pass_train_number;?></td>
+                        <td><?php echo $row->pass_train_name;?></td>
+                        <td class="center"><?php echo $row->pass_dep_station;?></td>
+                        <td class="center"><?php echo $row->pass_arr_station;?></td>
+                        <td class="center"><?php echo $row->pass_dep_time;?></td>
+                        <td class="center"><span class="badge badge-pill badge-danger">LKR</span> <?php echo $row->pass_train_fare;?></td>
+                        <td class="center"><a href="pass-checkout-ticket.php?pass_id = <?php echo $row->pass_id;?>" class="badge badge-pill badge-danger">Checkout</a></td>
                       </tr>
                         <?php }?>
                     </tbody>

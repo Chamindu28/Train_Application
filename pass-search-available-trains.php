@@ -23,12 +23,12 @@
 
       <div class="be-content">
       <div class="page-head">
-          <h2 class="page-head-title">Book Train</h2>
+          <h2 class="page-head-title">Advanced Train Search</h2>
           <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb page-head-nav">
               <li class="breadcrumb-item"><a href="pass">Dashboard</a></li>
-              <li class="breadcrumb-item"><a href="#">Book Train</a></li>
-              <li class="breadcrumb-item active">Reserve Train</li>
+              <li class="breadcrumb-item"><a href="#">Trains</a></li>
+              <li class="breadcrumb-item active">Advanced Train Search</li>
             </ol>
           </nav>
         </div>
@@ -37,7 +37,12 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="card card-table">
-                <div class="card-header">Please Book Your Train Accordingly                  
+                <div class="card-header">Available Train Details
+                  <div class="tools dropdown"><span class="icon mdi mdi-download"></span><a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"><span class="icon mdi mdi-more-vert"></span></a>
+                    <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
+                      <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body">
                   <table class="table table-striped table-hover table-fw-widget" id="table1">
@@ -46,11 +51,11 @@
                         <th>Train Number</th>
                         <th>Train Name</th>
                         <th>Route</th>
+                        <th>Current Station</th>
                         <th>Departure Station</th>
-                        <th>Arrival Station</th>
                         <th>Departure Time</th>
                         <th>Fare</th>
-                        <th>Book Train</th>
+                        <th>No. Of Passengers</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -74,11 +79,8 @@
                         <td class="center"><?php echo $row->destination;?></td>
                         <td class="center"><?php echo $row->time;?></td>
                         <td class="center"><span class="badge badge-pill badge-danger">LKR</span><?php echo $row->fare;?></td>
-                        <td class="center">
-                            <span class = "badge badge-pill badge-outline-danger">
-                                <a href = "pass-book-specific-train.php?id=<?php echo $row->id?>">Book</a>
-                            </span>    
-                        </td>
+                        
+                        <td class="center"><?php echo $row->passengers;?></td>
                       </tr>
                         <?php }?>
                     </tbody>
